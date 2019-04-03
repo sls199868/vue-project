@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="warp">
+        {{ message }}
+        <p class="my-p">
+        {{myPMessage}}
+        </p>
+    
+    <div class="container">
+        {{myContainer}}
+    </div>
+    <!-- dom属性赋值 -->
+    <!-- v-bind -->
+    <div class="my-title" v-bind:title="myTitle">
+        dom属性赋值
+    </div>
+    <!-- 条件控制 -->
+    <div class="show-box" v-if="flag">
+        条件控制
+    </div>
+        <ul>
+            <li v-for="(v,k) in list">
+                {{ k + ":" + v.value }}
+            </li>
+        </ul>
+        <!-- class与style：添加class -->
+        <!-- 数组语法 -->
+        <div
+            class="my-add-class"
+            v-bind:class="[activaClass,commonClass]"
+        >
+        class与style:添加class
+        </div>
+        <!-- 对象语法添加class -->
+        <div v-bind="{objectClass:flagClass}">
+            对象语法添加class
+        </div>
+        <!-- 事件驱动 -->
+        <!-- 事件监听器 -->
+        <div class="event-class"
+            v-on:click="handleFunction"        
+        >
+            事件监听器
+            <!-- 双向数据绑定：v-model可以获取表单元素的输入值 -->
+            <input type="text" v-model="inputValue" @keyup="handlekeyUp" @keydown="handlekeyDown"><span>{{ inputValue }}</span>
+
+        </div>
+        <!-- 计算属性 -->
+        <div class="computer-class">
+            {{ resverseMessage}}
+        </div>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+    // var dom=document.getElementById("warp");
+    // dom.innerText="我是warp";
+    
+    
+    //vue是构造函数
+    console.log(Vue);
+    var vm=new Vue({
+        el:"#warp",//el是管理dom的节点
+        data:function(){
+            return{
+                message:"我是warp",
+                myPMessage:"我是p标签",
+                myContainer:"我是Container标签",
+                myTitle:"我是title",
+                flag:true,
+                //  flag:true/false;
+                // 结果为true，是显示       结果是true的值有：
+                // 结果为false，是隐藏     结果是false的值有:0、undefined、NaN、""、null
+                list:[
+                    { id: 1, value: "香蕉"},
+                    { id: 2, value: "苹果"},
+                    { id: 3, value: "橘子"},
+                    { id: 4, value: "梨"},
+                ],
+                activaClass:"my-common-class",
+                commonClass:"my-font-common-class",
+                flagClass:true,
+                inputValue:"",
+            }
+        },
+        //methods管理行为，函数，方法
+        methods:{
+            handleFunction:function(){
+                //this指向的通过new关键字创建下的实例
+                console.log(this);
+                console.log(this.message);
+                this.flag=false;
+                
+            },
+            handleFunction:function(){
+                this.message="李树超";
+            },
+            //keyup是键盘事件，键盘离键的时候触发
+            //keydown是键盘按下时触发
+            handlekeyUp:function(){
+                console.log("我是表单按下事件");
+            },
+            handlechildrenClick:function(e){
+                console.log(e);
+                e.stopPropagation();
+            }
+        },
+        //计算属性：computed对象管理所有的计算属性
+        computed:{
+            resverseMessage:function(){
+                return this.message.split("").reverse().join("");
+            }
+        },
+        // //watch
+        // watch:{
+        //     flag:function(oldValue,newValue){
+        //     console.log(oldValue,"oldValue",newValue,"newValue")
+        //     }
+        // }
+    })
+    </script>
+</body>
+</html>
